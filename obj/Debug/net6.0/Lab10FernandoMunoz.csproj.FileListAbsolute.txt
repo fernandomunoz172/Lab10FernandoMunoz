@@ -1,0 +1,15 @@
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\bin\Debug\net6.0\Lab10FernandoMunoz.exe
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\bin\Debug\net6.0\Lab10FernandoMunoz.deps.json
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\bin\Debug\net6.0\Lab10FernandoMunoz.runtimeconfig.json
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\bin\Debug\net6.0\Lab10FernandoMunoz.dll
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\bin\Debug\net6.0\Lab10FernandoMunoz.pdb
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\Lab10FernandoMunoz.csproj.AssemblyReference.cache
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\Lab10FernandoMunoz.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\Lab10FernandoMunoz.AssemblyInfoInputs.cache
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\Lab10FernandoMunoz.AssemblyInfo.cs
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\Lab10FernandoMunoz.csproj.CoreCompileInputs.cache
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\Lab10FernandoMunoz.dll
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\refint\Lab10FernandoMunoz.dll
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\Lab10FernandoMunoz.pdb
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\Lab10FernandoMunoz.genruntimeconfig.cache
+C:\Users\munoz\code\lab\Lab10FernandoMunoz\obj\Debug\net6.0\ref\Lab10FernandoMunoz.dll
