@@ -12,8 +12,8 @@ namespace MyApp // Note: actual namespace depends on the project name.
             List<string> StartedActivities = new List<string>();
             List<DateTime> completedtime = new List<DateTime>();
             List<string> CompletedActivities = new List<string>();
-
-
+            List<TimeSpan> TotalTime=new List<TimeSpan>();
+            double averageseconds=0;
             while (true)
             {
                 int menu = Menu();
@@ -29,11 +29,10 @@ namespace MyApp // Note: actual namespace depends on the project name.
                         CompleteActivity(ref activities,ref StartedActivities, ref CompletedActivities, ref completedtime);
                         break;
                     case 4:
-
                         RemoveActivity(ref activities, ref StartedActivities, ref CompletedActivities);
                         break;
                     case 6:
-                        Stats(ref activities);
+                        StatsView(ref activities, ref StartedActivities, ref CompletedActivities, ref initialtime, ref completedtime, ref TotalTime, ref averageseconds );
                         break;
    
                 }
@@ -50,10 +49,11 @@ namespace MyApp // Note: actual namespace depends on the project name.
             {
                 try
                 {
-                    string[] greetings = new string[] { "It is good to see you", "How is it going?", "Hello, lovely user", "Hi, there", "Hey,How are things?" };
-                    Random randon = new Random();
-
-                    ForegroundColor = ConsoleColor.White;
+                    string[] greetings = new string[] { "It is good to see you.", "How is it going?", "Hello, lovely user.", "Hello, there.", "Hey, how are things?" , "What's up?", "How's everything going?", "Salut!", "Hey, how are you?","Hello User, have a good day!!!"};
+                    Random random = new Random();
+                     ForegroundColor = ConsoleColor.White;
+string randomgreeting=greetings[random.Next(greetings.Length)];
+WriteLine($"{randomgreeting}");
                     string title = "TO DO LIST MENU";
                     ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(@$"{title,50}");
@@ -399,7 +399,40 @@ break;
         }
         public static void SeeCurrentList()
         {
-            
+
+        }
+        public static void StatsView(ref List<string> activities, ref List<string>StartedActivities, ref List<string> CompletedActivities, ref List<DateTime> initialtime, ref List<DateTime> completedtime, ref List<TimeSpan> averagetime, ref double averageseconds)
+        {
+            while (true)
+            {
+            int incomplete= activities.Count - StartedActivities.Count;
+            int inprogress=StartedActivities.Count - CompletedActivities.Count;
+            for (int x=0;x>completedtime.Count; x++)
+            {
+                for (int y=0; y>StartedActivities.Count; x++)
+                {
+                    TimeSpan average = completedtime[x]- initialtime[y];
+                    averagetime.Add(average);
+                }
+            }
+                        for (int i=0; i>averagetime.Count; i++)
+    {
+ double totalseconds=+averagetime[i].TotalSeconds+0;
+ averageseconds= totalseconds/averagetime.Count;
+            }
+            TimeSpan averagedate= TimeSpan.FromSeconds(averageseconds);
+
+            Clear();
+            ForegroundColor=ConsoleColor.Magenta;
+            WriteLine("STATS");
+            WriteLine($"1. Total amount of activities: {activities.Count} ");
+            WriteLine($"2. Current amount of incomplete activities: {incomplete}");
+            WriteLine($"3. Current amount of completed activities: {CompletedActivities.Count}");
+            WriteLine($"4. Current amount of activities in progress: {inprogress}");
+            WriteLine($"5. Average time to complete an activity: {averagedate.Days} days, {averagedate.Hours} h, {averagedate.Minutes} m, {averagedate.Seconds} s.");
+ReadLine();
+
+            }
         }
     }
 }
