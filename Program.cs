@@ -472,12 +472,25 @@ Clear();
         {
             while (true)
             {
+                if (totalactivities.Count == 0)
+                {
+                    ForegroundColor = ConsoleColor.Red;
+                    WriteLine("No activities yet");
+                    ForegroundColor = ConsoleColor.DarkGray;
+                    Write("Press any key to go back: ");
+                    ReadKey();
+                    Clear();
+                    break;
+                }
+                    else
+                    {
    for (int x = 0; x < totalactivities.Count; x++)
                     {
                         WriteLine($"{x + 1}.- {totalactivities[x]}");
                     }
                     ReadKey();
                     break;
+                    }
             }
         }
         public static void StatsCalc(ref List<string> totalactivities, ref List<string> StartedActivities, ref List<string> StartedActivitiesRemaining, ref List<string> CompletedActivities, ref List<DateTime> initialtime, ref List<DateTime> completedtime, ref List<TimeSpan> averagetime,out TimeSpan averagedate, ref double averageseconds, out int incomplete, out int inprogress)
