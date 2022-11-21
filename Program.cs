@@ -12,7 +12,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
             List<string> StartedActivities = new List<string>();
             List<DateTime> completedtime = new List<DateTime>();
             List<string> CompletedActivities = new List<string>();
-            List<TimeSpan> TotalTime=new List<TimeSpan>();
+            List<TimeSpan> averagetime=new List<TimeSpan>();
             double averageseconds=0;
             while (true)
             {
@@ -20,7 +20,17 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 switch (menu)
                 {
                     case 1:
+                    if (!File.Exists("Message.csv"))
+                    {
+                      AddToDoList(ref activities);
+                       File.WriteAllLines("Activities.csv", activities);  
+                    }
+                    else 
+                    {
+                        string[] activitiessaved = File.ReadAllLines("Activities.csv");
                         AddToDoList(ref activities);
+                        File.WriteAllLines("Activities.csv", activities);
+                    }
                         break;
                     case 2:
                         StartActivity(ref activities, ref StartedActivities, ref initialtime);
@@ -32,11 +42,15 @@ namespace MyApp // Note: actual namespace depends on the project name.
                         RemoveActivity(ref activities, ref StartedActivities, ref CompletedActivities);
                         break;
                     case 6:
-                        StatsView(ref activities, ref StartedActivities, ref CompletedActivities, ref initialtime, ref completedtime, ref TotalTime, ref averageseconds );
+                        StatsView(ref activities, ref StartedActivities, ref CompletedActivities, ref initialtime, ref completedtime, ref averagetime, ref averageseconds );
                         break;
+                        case 7:
+                        WriteLine($"{averagetime[0]}");
+                        break;
+
    
                 }
-                if (menu == 7)
+                if (menu == 8)
                 {
                     break;
                 }
@@ -70,12 +84,14 @@ WriteLine($"{randomgreeting}");
                     ForegroundColor = ConsoleColor.Magenta;
                     WriteLine("6. See statitics");
                     ForegroundColor = ConsoleColor.Red;
-                    WriteLine("7. Exit");
+                    WriteLine("6. See time");
+                    ForegroundColor = ConsoleColor.Red;
+                    WriteLine("8. Exit");
                     ForegroundColor = ConsoleColor.DarkGray;
                     Write("Type the number of the action you wamt to do: ");
                     ForegroundColor = ConsoleColor.White;
                     int choice = Convert.ToInt32(ReadLine());
-                    if (choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 5 || choice == 6)
+                    if (choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 5 || choice == 6||choice==7||choice==8)
                     {
                         Clear();
                         return choice;
@@ -407,15 +423,13 @@ break;
             {
             int incomplete= activities.Count - StartedActivities.Count;
             int inprogress=StartedActivities.Count - CompletedActivities.Count;
-            for (int x=0;x>completedtime.Count; x++)
-            {
-                for (int y=0; y>StartedActivities.Count; x++)
+            for (int y=0; y<completedtime.Count; y++)
                 {
-                    TimeSpan average = completedtime[x]- initialtime[y];
+                    TimeSpan average = completedtime[y]- initialtime[y];
                     averagetime.Add(average);
                 }
-            }
-                        for (int i=0; i>averagetime.Count; i++)
+    
+                        for (int i=0; i<averagetime.Count; i++)
     {
  double totalseconds=+averagetime[i].TotalSeconds+0;
  averageseconds= totalseconds/averagetime.Count;
@@ -425,13 +439,15 @@ break;
             Clear();
             ForegroundColor=ConsoleColor.Magenta;
             WriteLine("STATS");
+            ForegroundColor=ConsoleColor.White;
             WriteLine($"1. Total amount of activities: {activities.Count} ");
             WriteLine($"2. Current amount of incomplete activities: {incomplete}");
             WriteLine($"3. Current amount of completed activities: {CompletedActivities.Count}");
             WriteLine($"4. Current amount of activities in progress: {inprogress}");
-            WriteLine($"5. Average time to complete an activity: {averagedate.Days} days, {averagedate.Hours} h, {averagedate.Minutes} m, {averagedate.Seconds} s.");
+            WriteLine($"5. Average time to complete an activity: {averagedate.Days} d, {averagedate.Hours} h, {averagedate.Minutes} m, {averagedate.Seconds} s.");
 ReadLine();
-
+Clear();
+break;
             }
         }
     }
