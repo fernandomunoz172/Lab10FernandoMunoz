@@ -31,24 +31,24 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 switch (menu)
                 {
                     case 1:
-                    SeeCurrentList(ref totalactivities);
+                    SeeCurrentList( totalactivities);
                     break;
                     case 2:
-                        AddToDoList(ref totalactivities, ref activities);
+                        AddToDoList( totalactivities,  activities);
                         File.WriteAllLines("Activities.csv", totalactivities);
                         break;
                     case 3:
-                        StartActivity(ref totalactivities, ref activities, ref StartedActivities, ref StartedActivitiesRemaining, ref initialtime);
+                        StartActivity( totalactivities,  activities,  StartedActivities,  StartedActivitiesRemaining,  initialtime);
                         break;
                     case 4:
-                        CompleteActivity(ref totalactivities, ref StartedActivities, ref CompletedActivities, ref completedtime);
+                        CompleteActivity( totalactivities,  StartedActivities,  CompletedActivities,  completedtime);
                         break;
                     case 5:
-                        RemoveActivity(ref totalactivities, ref activities, ref StartedActivities, ref CompletedActivities, ref StartedActivitiesRemaining);
+                        RemoveActivity( totalactivities,  activities,  StartedActivities,  CompletedActivities,  StartedActivitiesRemaining);
                         break;
                     case 6:
-                    StatsCalc(ref totalactivities, ref StartedActivities, ref StartedActivitiesRemaining, ref CompletedActivities, ref initialtime, ref completedtime, ref averagetime, out averagedate, ref averageseconds, out incomplete, out inprogress);
-                        StatsView(ref totalactivities, ref StartedActivities,  ref CompletedActivities, ref initialtime, ref completedtime, ref averagetime, ref averagedate, ref averageseconds, ref incomplete, ref inprogress);
+                    StatsCalc( totalactivities,  StartedActivities,  StartedActivitiesRemaining,  CompletedActivities,  initialtime,  completedtime,  averagetime, out averagedate, ref averageseconds, out incomplete, out inprogress);
+                        StatsView( totalactivities,  StartedActivities,   CompletedActivities,  initialtime,  completedtime,  averagetime,  ref averagedate,  ref averageseconds,  ref incomplete,  ref inprogress);
                         break;
                 }
                 if (menu == 7)
@@ -111,7 +111,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
             }
         }
 
-        static void AddToDoList(ref List<string> totalactivities,ref List<string> activities)
+        static void AddToDoList( List<string> totalactivities, List<string> activities)
         {
 
             while (true)
@@ -122,7 +122,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine(@$"Type 'Back' to go back to the menu");
                 ForegroundColor = ConsoleColor.White;
-                if (activities.Count == 0)
+                if (totalactivities.Count == 0)
                 {
                     ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("NO ACTIVITIES YET");
@@ -158,7 +158,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 }
             }
         }
-         static void AddToDoListSaved(ref List<string> totalactivities,ref List<string> activities, ref string[] savedactivities)
+         static void AddToDoListSaved( List<string> totalactivities, List<string> activities,  string[] savedactivities)
         {
 
             while (true)
@@ -206,7 +206,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 }
             }
         }
-        public static void StartActivity(ref List<string> totalactivities, ref List<string> activities, ref List<string> StartedActivities, ref List<string> StartedActivitiesRemaining, ref List<DateTime> initialtime)
+        public static void StartActivity( List<string> totalactivities,  List<string> activities,  List<string> StartedActivities,  List<string> StartedActivitiesRemaining,  List<DateTime> initialtime)
         {
             while (true)
             {
@@ -224,7 +224,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 {
                     while (true)
                     {
-                        AskforActivityStarting(ref totalactivities, ref activities, ref StartedActivities, ref StartedActivitiesRemaining, ref initialtime);
+                        AskforActivityStarting( totalactivities,  activities,  StartedActivities,  StartedActivitiesRemaining,  initialtime);
                         break;
                     }
                     break;
@@ -234,7 +234,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
 
             }
         }
-        public static void AskforActivityStarting(ref List<string> totalactivities, ref List<string> activities, ref List<string> StartedActivities,ref List<string> StartedActivitiesRemaining,  ref List<DateTime> initialtime)
+        public static void AskforActivityStarting( List<string> totalactivities,  List<string> activities,  List<string> StartedActivities, List<string> StartedActivitiesRemaining,   List<DateTime> initialtime)
         {
 
             while (true)
@@ -289,7 +289,7 @@ Clear();
                 }
             }
         }
-        static void CompleteActivity(ref List<string> totalactivities, ref List<string> StartedActivities, ref List<string> CompletedActivities, ref List<DateTime> completedTime)
+        static void CompleteActivity( List<string> totalactivities,  List<string> StartedActivities,  List<string> CompletedActivities,  List<DateTime> completedTime)
         {
             while (true)
             {
@@ -325,7 +325,7 @@ Clear();
                 {
                     while (true)
                     {
-                        AskForActivityCompleting(ref StartedActivities, ref CompletedActivities, ref completedTime);
+                        AskForActivityCompleting( StartedActivities,  CompletedActivities,  completedTime);
                         break;
                     }
                     break;
@@ -333,7 +333,7 @@ Clear();
                 }
             }
         }
-        static void AskForActivityCompleting(ref List<string> StartedActivities, ref List<string> CompletedActivities, ref List<DateTime> completedTime)
+        static void AskForActivityCompleting( List<string> StartedActivities,  List<string> CompletedActivities,  List<DateTime> completedTime)
         {
             while (true)
             {
@@ -386,7 +386,7 @@ Clear();
                 }
             }
         }
-        public static void RemoveActivity(ref List<string> totalactivities, ref List<string> activities, ref List<string> StartedActivities, ref List<string> CompletedActivities, ref List<string> StartedActivitiesRemaining)
+        public static void RemoveActivity( List<string> totalactivities,  List<string> activities,  List<string> StartedActivities,  List<string> CompletedActivities,  List<string> StartedActivitiesRemaining)
         {
             while (true)
             {
@@ -506,7 +506,7 @@ Clear();
 
             }
         }
-        public static void SeeCurrentList(ref List<string> totalactivities)
+        public static void SeeCurrentList( List<string> totalactivities)
         {
             while (true)
             {
@@ -531,7 +531,7 @@ Clear();
                     }
             }
         }
-        public static void StatsCalc(ref List<string> totalactivities, ref List<string> StartedActivities, ref List<string> StartedActivitiesRemaining, ref List<string> CompletedActivities, ref List<DateTime> initialtime, ref List<DateTime> completedtime, ref List<TimeSpan> averagetime,out TimeSpan averagedate, ref double averageseconds, out int incomplete, out int inprogress)
+        public static void StatsCalc( List<string> totalactivities,  List<string> StartedActivities,  List<string> StartedActivitiesRemaining,  List<string> CompletedActivities,  List<DateTime> initialtime,  List<DateTime> completedtime,  List<TimeSpan> averagetime,out TimeSpan averagedate, ref double averageseconds, out int incomplete, out int inprogress)
         { 
                 incomplete = totalactivities.Count - StartedActivitiesRemaining.Count;
                 inprogress = StartedActivities.Count;
@@ -549,7 +549,7 @@ Clear();
                 averagedate = TimeSpan.FromSeconds(averageseconds); 
             
         }
-        public static void StatsView (ref List<string> totalactivities, ref List<string> StartedActivities,ref List<string> CompletedActivities, ref List<DateTime> initialtime, ref List<DateTime> completedtime, ref List<TimeSpan> averagetime, ref TimeSpan averagedate, ref double averageseconds, ref int incomplete, ref int inprogress )
+        public static void StatsView ( List<string> totalactivities,  List<string> StartedActivities, List<string> CompletedActivities,  List<DateTime> initialtime,  List<DateTime> completedtime,  List<TimeSpan> averagetime, ref TimeSpan averagedate, ref double averageseconds, ref int incomplete, ref int inprogress )
         {
             while (true)
             {
