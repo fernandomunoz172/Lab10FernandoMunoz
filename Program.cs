@@ -7,6 +7,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
     {
         static void Main(string[] args)
         {
+            string pathTotalActivities= @"c:\Users\munoz.txt";
             List<string> totalactivities = new List<string>();
             List<string> activities= new List<string>();
             List<DateTime> initialtime = new List<DateTime>();
@@ -19,6 +20,11 @@ namespace MyApp // Note: actual namespace depends on the project name.
             int inprogress;
             double averageseconds = 0;
             TimeSpan averagedate;
+                        if (File.Exists("Activities.csv"))
+                        {
+                            string[] savedactivities = File.ReadAllLines("Activities.csv");
+                            totalactivities=savedactivities.ToList();
+                        }
             while (true)
             {
                 int menu = Menu();
@@ -28,17 +34,8 @@ namespace MyApp // Note: actual namespace depends on the project name.
                     SeeCurrentList(ref totalactivities);
                     break;
                     case 2:
-                        if (!File.Exists("Message.csv"))
-                        {
-                            AddToDoList(ref totalactivities, ref activities);
-                            File.WriteAllLines("Activities.csv", totalactivities);
-                        }
-                        else
-                        {
-                            string[] activitiessaved = File.ReadAllLines("Activities.csv");
-                            AddToDoList(ref totalactivities, ref activities);
-                            File.WriteAllLines("Activities.csv", totalactivities);
-                        }
+                        AddToDoList(ref totalactivities, ref activities);
+                        File.WriteAllLines("Activities.csv", totalactivities);
                         break;
                     case 3:
                         StartActivity(ref totalactivities, ref activities, ref StartedActivities, ref StartedActivitiesRemaining, ref initialtime);
@@ -53,11 +50,8 @@ namespace MyApp // Note: actual namespace depends on the project name.
                     StatsCalc(ref totalactivities, ref StartedActivities, ref StartedActivitiesRemaining, ref CompletedActivities, ref initialtime, ref completedtime, ref averagetime, out averagedate, ref averageseconds, out incomplete, out inprogress);
                         StatsView(ref totalactivities, ref StartedActivities,  ref CompletedActivities, ref initialtime, ref completedtime, ref averagetime, ref averagedate, ref averageseconds, ref incomplete, ref inprogress);
                         break;
-                   
-
-
                 }
-                if (menu == 8)
+                if (menu == 7)
                 {
                     break;
                 }
@@ -164,7 +158,54 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 }
             }
         }
-        
+         static void AddToDoListSaved(ref List<string> totalactivities,ref List<string> activities, ref string[] savedactivities)
+        {
+
+            while (true)
+            {
+                totalactivities = savedactivities.ToList();
+                string title = "TO DO LIST";
+                ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(@$"{title,50}");
+                ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine(@$"Type 'Back' to go back to the menu");
+                ForegroundColor = ConsoleColor.White;
+                if (totalactivities.Count == 0)
+                {
+                    ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("NO ACTIVITIES YET");
+                }
+                else
+                {
+                    for (int x = 0; x < totalactivities.Count; x++)
+                    {
+                        WriteLine($"{x + 1}.- {totalactivities[x]}");
+                    }
+
+                }
+
+                ForegroundColor = ConsoleColor.Blue;
+                Write("Add new activity: ");
+                ForegroundColor = ConsoleColor.White;
+                string? useractivities = ReadLine();
+                if (useractivities != "" && useractivities != "Back" && useractivities != "back")
+                {
+                    totalactivities.Add(useractivities);
+                    activities.Add(useractivities);
+                    Clear();
+                }
+                else if (useractivities == "")
+                {
+                    Clear();
+                    continue;
+                }
+                else
+                {
+                    Clear();
+                    break;
+                }
+            }
+        }
         public static void StartActivity(ref List<string> totalactivities, ref List<string> activities, ref List<string> StartedActivities, ref List<string> StartedActivitiesRemaining, ref List<DateTime> initialtime)
         {
             while (true)
@@ -198,23 +239,21 @@ namespace MyApp // Note: actual namespace depends on the project name.
 
             while (true)
             {
-                string title = "INCOMPLETE ACTIVITIES";
+                string title = "CURRENT ACTIVITIES";
                 ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine(@$"{title,50}");
                 ForegroundColor = ConsoleColor.DarkGray;
                 WriteLine("0.- GO BACK");
                 try
                 {
-                    int i=-1;
-                    for (int x = 0; x < totalactivities.Count; x++)
+                    for (int x = 0; x < activities.Count; x++)
                     {
                         ForegroundColor = ConsoleColor.White;
-                        WriteLine($"{x + 1}.- {totalactivities[x]}");
+                        WriteLine($"{x + 1}.- {activities[x]}");
                        }
                     ForegroundColor = ConsoleColor.White;
-                    WriteLine("DO NOT START AN ACTIION TWICE");
                     Write("Put the number of the activity you would like to start: ");
-                    i = Convert.ToInt32(ReadLine());
+                   int i = Convert.ToInt32(ReadLine());
                     if (i == 0)
                     {
                         Clear();
@@ -231,16 +270,14 @@ namespace MyApp // Note: actual namespace depends on the project name.
                     else
                     {
 Clear();
-                        for (int x = i - 1; x < totalactivities.Count;)
+                        for (int x = i - 1; x < activities.Count;)
                         {
-                            StartedActivities.Add(totalactivities[x]);
-                            StartedActivitiesRemaining.Add(totalactivities[x]);
+                            StartedActivities.Add(activities[x]);
+                            StartedActivitiesRemaining.Add(activities[x]);
+                            activities.RemoveAt(i-1);
                             initialtime.Add(DateTime.Now);
                             break;
                         }
-                        Write($"{totalactivities[i-1]}");
-                          ForegroundColor=ConsoleColor.Magenta;
-                        WriteLine(": Started");
                     }
                 }
                 catch
@@ -432,6 +469,7 @@ Clear();
                                         {
                                             Clear();
                                             totalactivities.RemoveAt(i - 1);
+                                            activities.RemoveAt(i-1);
                                         }
                                     }
                                     catch
@@ -521,10 +559,10 @@ Clear();
                 ForegroundColor = ConsoleColor.White;
                 WriteLine($"1. Total amount of activities: {totalactivities.Count} ");
                 WriteLine($"2. Current amount of incomplete activities: {incomplete}");
-                WriteLine($"3. Current amount of completed activities: {CompletedActivities.Count}");
-                WriteLine($"4. Current amount of activities in progress: {inprogress}");
+                 WriteLine($"3. Current amount of activities in progress: {inprogress}");
+                WriteLine($"4. Current amount of completed activities: {CompletedActivities.Count}");
                 WriteLine($"5. Average time to complete an activity: {averagedate.Days} d, {averagedate.Hours} h, {averagedate.Minutes} m, {averagedate.Seconds} s.");
-                WriteLine("Press any key to go back to the menu.");
+                Write("Press any key to go back to the menu: ");
                 ReadLine();
                 Clear();
                 break;
@@ -533,4 +571,3 @@ Clear();
         enum status { Started}
     }
 }
-
