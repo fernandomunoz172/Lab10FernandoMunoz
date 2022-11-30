@@ -7,7 +7,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
     {
         static void Main(string[] args)
         {
-            string pathTotalActivities= @"c:\Users\munoz.txt";
+           
             List<string> totalactivities = new List<string>();
             List<string> activities= new List<string>();
             List<DateTime> initialtime = new List<DateTime>();
@@ -16,14 +16,42 @@ namespace MyApp // Note: actual namespace depends on the project name.
             List<DateTime> completedtime = new List<DateTime>();
             List<string> CompletedActivities = new List<string>();
             List<TimeSpan> averagetime = new List<TimeSpan>();
+            List<string> stats=new List<string>();
             int incomplete;
             int inprogress;
             double averageseconds = 0;
             TimeSpan averagedate;
+                        if (File.Exists("TotalActivities.csv"))
+                        {
+                            string[] savedactivities = File.ReadAllLines("TotalActivities.csv");
+                            totalactivities=savedactivities.ToList();
+                        }
+                        if (File.Exists("Stats.csv"))
+                        {
+                            string[] statssaved= File.ReadAllLines("Stats.csv");
+                            stats.Clear();
+                            stats=statssaved.ToList();
                         if (File.Exists("Activities.csv"))
                         {
-                            string[] savedactivities = File.ReadAllLines("Activities.csv");
-                            totalactivities=savedactivities.ToList();
+                             string[] activitiessaved= File.ReadAllLines("Activities.csv");
+                            activities=activitiessaved.ToList();
+                        }
+                        if (File.Exists("StartedActivities.csv"))
+                    {
+ string[] startedactivitiessaved= File.ReadAllLines("StartedActivities.csv");
+                            StartedActivities=startedactivitiessaved.ToList();
+                    }
+                    if (File.Exists("CompletedActivities.csv"))
+                    {
+ string[] completedactivitiessaved= File.ReadAllLines("CompletedActivities.csv");
+                            CompletedActivities=completedactivitiessaved.ToList();
+                    }
+                    if (File.Exists("StartedActivities2.csv"))
+                    {
+ string[] startedactivitiessaved2= File.ReadAllLines("StartedActivities2.csv");
+                            StartedActivitiesRemaining=startedactivitiessaved2.ToList();
+                    }
+
                         }
             while (true)
             {
@@ -35,7 +63,6 @@ namespace MyApp // Note: actual namespace depends on the project name.
                     break;
                     case 2:
                         AddToDoList( totalactivities,  activities);
-                        File.WriteAllLines("Activities.csv", totalactivities);
                         break;
                     case 3:
                         StartActivity( totalactivities,  activities,  StartedActivities,  StartedActivitiesRemaining,  initialtime);
@@ -48,7 +75,8 @@ namespace MyApp // Note: actual namespace depends on the project name.
                         break;
                     case 6:
                     StatsCalc( totalactivities,  StartedActivities,  StartedActivitiesRemaining,  CompletedActivities,  initialtime,  completedtime,  averagetime, out averagedate, ref averageseconds, out incomplete, out inprogress);
-                        StatsView( totalactivities,  StartedActivities,   CompletedActivities,  initialtime,  completedtime,  averagetime,  ref averagedate,  ref averageseconds,  ref incomplete,  ref inprogress);
+                        StatsView( totalactivities,  StartedActivities,   CompletedActivities,  initialtime,  completedtime,  averagetime, stats, ref averagedate,  ref averageseconds,  ref incomplete,  ref inprogress);
+                
                         break;
                 }
                 if (menu == 7)
@@ -56,6 +84,12 @@ namespace MyApp // Note: actual namespace depends on the project name.
                     break;
                 }
             }
+            File.WriteAllLines("TotalActivities.csv", totalactivities);
+            File.WriteAllLines("Stats.csv", stats);
+            File.WriteAllLines("Activities.csv", activities);
+             File.WriteAllLines("StartedActivities.csv", StartedActivities);
+            File.WriteAllLines("CompletedActivities.csv",CompletedActivities);
+            File.WriteAllLines("StartedActivities2.csv", StartedActivitiesRemaining);
         }
 
         static int Menu()
@@ -549,7 +583,7 @@ Clear();
                 averagedate = TimeSpan.FromSeconds(averageseconds); 
             
         }
-        public static void StatsView ( List<string> totalactivities,  List<string> StartedActivities, List<string> CompletedActivities,  List<DateTime> initialtime,  List<DateTime> completedtime,  List<TimeSpan> averagetime, ref TimeSpan averagedate, ref double averageseconds, ref int incomplete, ref int inprogress )
+        public static void StatsView ( List<string> totalactivities,  List<string> StartedActivities, List<string> CompletedActivities,  List<DateTime> initialtime,  List<DateTime> completedtime,  List<TimeSpan> averagetime, List<string> stats, ref TimeSpan averagedate, ref double averageseconds, ref int incomplete, ref int inprogress )
         {
             while (true)
             {
@@ -557,11 +591,20 @@ Clear();
                 ForegroundColor = ConsoleColor.Magenta;
                 WriteLine("STATS");
                 ForegroundColor = ConsoleColor.White;
-                WriteLine($"1. Total amount of activities: {totalactivities.Count} ");
-                WriteLine($"2. Current amount of incomplete activities: {incomplete}");
-                 WriteLine($"3. Current amount of activities in progress: {inprogress}");
-                WriteLine($"4. Current amount of completed activities: {CompletedActivities.Count}");
-                WriteLine($"5. Average time to complete an activity: {averagedate.Days} d, {averagedate.Hours} h, {averagedate.Minutes} m, {averagedate.Seconds} s.");
+                string amountactivities=$"1. Total amount of activities: {totalactivities.Count} ";
+                string incompleteactivties=$"2. Current amount of incomplete activities: {incomplete}";
+                 string inprogressactivities=$"3. Current amount of activities in progress: {inprogress}";
+                string completedactivities=$"4. Current amount of completed activities: {CompletedActivities.Count}";
+                string averagetimecompleted=$"5. Average time to complete an activity: {averagedate.Days} d, {averagedate.Hours} h, {averagedate.Minutes} m, {averagedate.Seconds} s.";
+          stats.Add(amountactivities);
+          stats.Add(incompleteactivties);
+           stats.Add(inprogressactivities);
+            stats.Add(completedactivities);
+             stats.Add(averagetimecompleted);
+             for (int x = 0; x < stats.Count; x++)
+                    {
+                        WriteLine($"{stats[x]}");
+                    }
                 Write("Press any key to go back to the menu: ");
                 ReadLine();
                 Clear();
